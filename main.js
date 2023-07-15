@@ -9,32 +9,35 @@ function command(i) {
             i.reply('Pong');
             break;
         case 'nap':
-            let time = i.options._hoistedOptions[0].value;
-            let unit = i.options._hoistedOptions[1].value;
-            i.member.voice.setDeaf(true);
-            i.member.voice.setMute(true);
-
-            let unitTime = 0;
-            if(unit == 'seconds') { unitTime = 1; }
-            if(unit == 'minutes') { unitTime = 60; }
-            if(unit == 'hours') { unitTime = 3600; }
-            let milliseconds = 1000 * parseFloat(time) * unitTime;
-
-            const embed = new EmbedBuilder()
-                .setColor("Blurple")
-                .setTitle(`**Goodnight ${i.member.user.username}!**`)
-                .setDescription(`Putting ${i.member} to sleep for **${time} ${unit}**...`)
-                .setThumbnail(i.member.user.avatarURL())
-                .setTimestamp();
-            i.reply({embeds: [embed]});
-            setTimeout(function(){ 
-                i.member.voice.setDeaf(false);
-                i.member.voice.setMute(false);
-            }, milliseconds);
-            break;
+            if(i.member.voice.channel) {
+                let time = i.options._hoistedOptions[0].value;
+                if(isNaN(time)) { i.reply('`time` must be a number!'); return; }
+                let unit = i.options._hoistedOptions[1].value;
+                i.member.voice.setDeaf(true);
+                i.member.voice.setMute(true);
+    
+                let unitTime = 0;
+                if(unit == 'seconds') { unitTime = 1; }
+                else if(unit == 'minutes') { unitTime = 60; }
+                else if(unit == 'hours') { unitTime = 3600; }
+                else { i.reply('`unit` must be: `seconds`, `minutes`, or `hours`!'); return; }
+                let milliseconds = 1000 * parseFloat(time) * unitTime;
+    
+                const embed = new EmbedBuilder()
+                    .setColor("Blurple")
+                    .setTitle(`**Goodnight ${i.member.user.username}!**`)
+                    .setDescription(`Putting ${i.member} to sleep for **${time} ${unit}**...`)
+                    .setThumbnail(i.member.user.avatarURL())
+                    .setTimestamp();
+                i.reply({embeds: [embed]});
+                setTimeout(function(){ 
+                    i.member.voice.setDeaf(false);
+                    i.member.voice.setMute(false);
+                }, milliseconds);
+                break;
+            } else { i.reply('you must be in a voice channel!'); return; }
     }
 }
-
 
 client.once(Events.ClientReady, c =>{
     console.log(`Logged in as ${c.user.tag}`);
