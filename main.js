@@ -18,7 +18,7 @@ function command(i) {
             if(unit == 'seconds') { unitTime = 1; }
             if(unit == 'minutes') { unitTime = 60; }
             if(unit == 'hours') { unitTime = 3600; }
-            let milliseconds = 1000 * parseFloat(time) * unitTime;z``
+            let milliseconds = 1000 * parseFloat(time) * unitTime;
 
             const embed = new EmbedBuilder()
                 .setColor("Blurple")
