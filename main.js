@@ -1,4 +1,4 @@
-const { token } = require('./config.json');
+require('dotenv').config();
 const {Client, Events, GatewayIntentBits, SlashCommandBuilder, EmbedBuilder, ActivityType} = require('discord.js');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
@@ -75,7 +75,7 @@ client.on(Events.InteractionCreate, interaction => {
     command(interaction);
 });
 
-client.login(token);
+client.login(process.env.TOKEN);
 
 const express = require('express')
 const app = express();
