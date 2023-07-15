@@ -11,7 +11,7 @@ function command(i) {
         case 'nap':
             if(i.member.voice.channel) {
                 let time = i.options._hoistedOptions[0].value;
-                if(isNaN(time)) { i.reply('`time` must be a number!'); return; }
+                if(isNaN(time)) { i.reply('`time` must be a number!'); break; }
                 let unit = i.options._hoistedOptions[1].value;
                 i.member.voice.setDeaf(true);
                 i.member.voice.setMute(true);
@@ -20,7 +20,7 @@ function command(i) {
                 if(unit == 'seconds') { unitTime = 1; }
                 else if(unit == 'minutes') { unitTime = 60; }
                 else if(unit == 'hours') { unitTime = 3600; }
-                else { i.reply('`unit` must be: `seconds`, `minutes`, or `hours`!'); return; }
+                else { i.reply('`unit` must be: `seconds`, `minutes`, or `hours`!'); break; }
                 let milliseconds = 1000 * parseFloat(time) * unitTime;
     
                 const embed = new EmbedBuilder()
@@ -35,7 +35,7 @@ function command(i) {
                     i.member.voice.setMute(false);
                 }, milliseconds);
                 break;
-            } else { i.reply('you must be in a voice channel!'); return; }
+            } else { i.reply('you must be in a voice channel!'); break; }
     }
 }
 
